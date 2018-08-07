@@ -2,16 +2,16 @@ import {
   Component,
   Input,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnInit
 } from '@angular/core';
 
 
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
-  styleUrls: ['./select.component.css']
 })
-export class SelectComponent {
+export class SelectComponent implements OnInit {
   @Input() items: any[];
   @Output() select: EventEmitter<string>;
 
@@ -19,7 +19,12 @@ export class SelectComponent {
     this.select = new EventEmitter();
   }
 
-  onSelect(value: string): void {
+  ngOnInit() {
+    console.log(`Initializing <app-select>`);
+  }
+
+  onClick(value: string): void {
+    console.log(`I'm emitting ${value}`);
     this.select.emit(value);
   }
 

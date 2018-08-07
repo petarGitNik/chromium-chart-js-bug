@@ -7,11 +7,13 @@ import { ChartsModule } from 'ng2-charts';
 import { AppComponent } from './app.component';
 import { InMemoryDataService }  from './in-memory-data.service';
 import { SelectComponent } from './select/select.component';
+import { PieComponent } from './pie/pie.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SelectComponent
+    SelectComponent,
+    PieComponent
   ],
   imports: [
     BrowserModule,

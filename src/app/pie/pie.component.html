@@ -1,0 +1,19 @@
+<ng-container *ngIf="pieChartLabels && pieChartData; else loading">
+  <div>
+    <app-select [items]="dropdownItems" (select)="onSelect($event)"></app-select>
+  </div>
+  <div class="chart" style="display: block">
+    <canvas baseChart
+    [data]="pieChartData"
+    [labels]="pieChartLabels"
+    [chartType]="pieChartType"
+    [options]="pieChartOptions"
+    [colors]="pieChartColors"></canvas>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div>
+    Loading...
+  </div>
+</ng-template>
