@@ -23,7 +23,6 @@ export function generateDropdownItems(data: any[], value: string, label: string)
 })
 export class PieComponent implements OnInit {
 
-  public isLoading: boolean = true;
   private data: any[];
   public dropdownItems: any[];
   private currentSelection: string;
@@ -34,7 +33,13 @@ export class PieComponent implements OnInit {
   public pieChartOptions: any = {
     responsive: true,
     maintainAspectRatio: false,
-    legend: { position: 'bottom' }
+    legend: { position: 'bottom' },
+    pieceLabel: {
+      render: 'percentage',
+      fontColor: 'black',
+      fontStyle: 'bold',
+      precision: 0
+    }
   };
 
   public pieChartColors: Array<any> = [
@@ -51,25 +56,25 @@ export class PieComponent implements OnInit {
   ngOnInit() {
 
     this.service.getProgress().subscribe(progs => {
-      if (progs && progs.length > 0) {
-        this.data = progs;
+      this.data = progs;
 
-        this.dropdownItems = generateDropdownItems(progs, 'id', 'title');
+      this.dropdownItems = generateDropdownItems(progs, 'id', 'title');
 
-        let prog = progs[0];
-        this.currentSelection = String(progs[0]['id']);
+      let prog = progs[0];
+      this.currentSelection = String(progs[0]['id']);
 
-        this.pieChartLabels = prog.labels;
-        this.pieChartData = prog.data;
-      } else {
-        this.isLoading = false;
-      }
+      // Assign copy of labels from theo original data to the plot
+      this.pieChartLabels = [...prog.labels];
+      this.pieChartData = prog.data;
     },
       error => { console.error(<any> error); }
     );
 
   }
 
+  /*
+   * Select data from this.data using an option from the dropdown menu.
+   */
   private selectQuarter(id: string): any | null {
     for (let obj of this.data) {
       if (obj['id'] === +id) {
@@ -79,19 +84,23 @@ export class PieComponent implements OnInit {
     return null;
   }
 
+  /*
+   * When option in the dropdown menu is selected, change plot's data and label.
+   */
   public onSelect(value: string): void {
-    console.log(`I'm in select!`);
     if (value === this.currentSelection) {
-      console.log(`But I'm not doing anything :p`);
       return;
     }
 
     this.currentSelection = value;
-    let course = this.selectQuarter(value);
-    console.log(course);
+    let quarter = this.selectQuarter(value);
+    console.log(quarter);
 
-    if (course !== null) {
-      this.pieChartData = course['data'];
+    if (quarter !== null) {
+      this.pieChartData = quarter['data'];
+
+      this.pieChartLabels.length = 0;
+      this.pieChartLabels.push(...quarter['labels']);
     }
   }
 
