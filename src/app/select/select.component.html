@@ -1,7 +1,6 @@
-<select>
+<select (change)="onClick($event)">
   <option
     *ngFor="let item of items"
     value="{{item.value}}"
-    (click)="onClick(item.value)"
   >{{ item.label }}</option>
 </select>

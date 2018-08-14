@@ -23,9 +23,8 @@ export class SelectComponent implements OnInit {
     console.log(`Initializing <app-select>`);
   }
 
-  onClick(value: string): void {
-    console.log(`I'm emitting ${value}`);
-    this.select.emit(value);
+  onClick($event): void {
+    this.select.emit($event.target.value);
   }
 
 }
