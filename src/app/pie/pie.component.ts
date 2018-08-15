@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
+import 'chart.piecelabel.js';
+
 import { PieService } from './pie.service';
 
 
